@@ -4,7 +4,7 @@ action_size = 7 # 7 possible actions
 learning_rate = 0.00025 # alpha (aka learning rate)
 
 ### training hyperparameters
-total_episodes = 50 # total episodes for training
+total_episodes = 2 # total episodes for training
 max_steps = 5000 # max possible steps in an episode
 batch_size = 64
 
