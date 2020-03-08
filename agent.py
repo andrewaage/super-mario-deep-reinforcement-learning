@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 from collections import deque # ordererd collection with ends
 
-from nes_py.wrappers import BinarySpaceToDiscreteSpaceEnv
+from nes_py.wrappers import JoypadSpace
 import gym_super_mario_bros # our super mario gyme
 from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
 
@@ -16,7 +16,6 @@ from model import DQNetwork
 from preprocess import preprocess_frame, stack_frames
 from utils import Memory
 
-from nes_py.wrappers import BinarySpaceToDiscreteSpaceEnv
 import gym_super_mario_bros # our super mario gyme
 from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
         
@@ -25,7 +24,7 @@ class Agent:
         self.level_name = level_name  
         # setup environment
         self.env = gym_super_mario_bros.make(level_name)
-        self.env = BinarySpaceToDiscreteSpaceEnv(self.env, SIMPLE_MOVEMENT)
+        self.env = JoypadSpace(self.env, SIMPLE_MOVEMENT)
         # one hot encoded version of our actions
         self.possible_actions = np.array(np.identity(self.env.action_space.n, dtype=int).tolist())
 
@@ -177,6 +176,8 @@ class Agent:
 
             # Load the model
             self.saver.restore(sess, "models/{0}.cpkt".format(self.level_name))
+
+            #self.env = wrap_env(self.env)
 
             for episode in range(1):
                 total_rewards = 0
